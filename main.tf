@@ -1,14 +1,22 @@
-
 provider "aws" {
   profile = "default"
   region = "ap-northeast-1"
 }
 
-data aws_ssm_parameter amzn2_ami {
-  name = "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
-}
+resource "aws_dynamodb_table" "tfc_example_table" {
+  ami = var.db_table_name
+  read_capacity = var.db_read_capacity
+  write_capacity = var.db_write_capacity
+  hash_key = "UUID"
 
-resource "aws_instance" "example" {
-  ami = data.aws_ssm_parameter.amzn2_ami.value
-  instance_type = "t2.micro"
+  attribute {
+    name = "UUID"
+    type = "S"
+  }
+  tags = {
+    Cost = "smartnews"
+    Team = "Growth-Backend"
+    Env = "experimentation"
+    "custom:Usage" = "Terraform-Training"
+  }
 }
