@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 resource "aws_dynamodb_table" "tfc_example_table" {
-  ami = var.db_table_name
+  name = var.db_table_name
   read_capacity = var.db_read_capacity
   write_capacity = var.db_write_capacity
   hash_key = "UUID"
